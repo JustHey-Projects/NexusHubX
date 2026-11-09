@@ -53,6 +53,7 @@ local Config = {
 local gameIdToURL = {
     ["10769464063"] = "87ba5b8f250f3a7e3c3e9cb12f71aa45",
     ["10770933473"] = "8f0618356b1391aadbbdfea315eae62b",
+    ["10771997908"] = "9ef37815386a5b8b8a5422d5db5904c9"
 }
 
 local FallbackIcons = {
