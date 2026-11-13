@@ -39,22 +39,24 @@ local Colors = {
     Error = Color3.fromRGB(255, 96, 137)
 }
 
-local Config = {
-    HeaderTitle = "NexusHubX",
-    Subtitle = "Key system",
-    LinkvertiseLink = "https://ads.luarmor.net/get_key?for=VYXLinkvertise-YysLqXvzHcdm",
-    ShrtflyLink = "https://ads.luarmor.net/get_key?for=VYXWorkInk-soPiLyyqONUM",
-    DiscordLink = "https://discord.gg/DRACbKe3Dm",
-    FileName = "NexusHubXKey_Save.txt",
-    AssetFolder = "NexusHubXAssets",
-    DiscordInvite = "DRACbKe3Dm"
-}
+local HEADER_TITLE = "NexusHubX"
+local SUBTITLE = "Key system"
+local LINKVERTISE_LINK = "https://ads.luarmor.net/get_key?for=VYXLinkvertise-YysLqXvzHcdm"
+local SHRTFLY_LINK = "https://ads.luarmor.net/get_key?for=VYXWorkInk-soPiLyyqONUM"
+local DISCORD_LINK = "https://discord.gg/DRACbKe3Dm"
+local KEY_FILE_NAME = "NexusHubXKey_Save.txt"
+local ASSET_FOLDER = "NexusHubXAssets"
+local DISCORD_INVITE = "DRACbKe3Dm"
 
 local gameIdToURL = {
     ["10769464063"] = "87ba5b8f250f3a7e3c3e9cb12f71aa45",
     ["10770933473"] = "8f0618356b1391aadbbdfea315eae62b",
     ["10771997908"] = "9ef37815386a5b8b8a5422d5db5904c9",
     ["10766972131"] = "69c02dbaf0a86b7144d6680acf5355d0",
+    ["10766468833"] = "d8f11d36ae31baa84f2c8e13fdd5fdab",
+    ["10773574214"] = "dfcb78fa87b259721037b692cac9b23b",
+    ["10773907070"] = "23fd7170977fcc8b8dc8557ccaef7242",
+    ["8300580369"] = "f0bbd707b99dbd06d40c6bc0f2268771",
 }
 
 local FallbackIcons = {
@@ -165,15 +167,15 @@ local function EnsureAssetFolder()
         return
     end
     pcall(function()
-        if not isfolder(Config.AssetFolder) then
-            makefolder(Config.AssetFolder)
+        if not isfolder(ASSET_FOLDER) then
+            makefolder(ASSET_FOLDER)
         end
     end)
 end
 
 local function GetAssetPath(name, assetType)
     local extension = assetType == "discord" and ".jpg" or ".png"
-    return Config.AssetFolder .. "/" .. name .. extension
+    return ASSET_FOLDER .. "/" .. name .. extension
 end
 
 local function DownloadAsset(asset)
@@ -193,7 +195,7 @@ local function DownloadAsset(asset)
         url = "https://raw.githubusercontent.com/latte-soft/lucide-roblox/master/icons/compiled/256px/" .. asset.Name .. ".png"
     else
         local inviteSuccess, inviteResponse = pcall(function()
-            return game:HttpGet("https://discord.com/api/v10/invites/" .. Config.DiscordInvite .. "?with_counts=false&with_expiration=false")
+            return game:HttpGet("https://discord.com/api/v10/invites/" .. DISCORD_INVITE .. "?with_counts=false&with_expiration=false")
         end)
         if inviteSuccess and type(inviteResponse) == "string" then
             local decoded = SafeJSONDecode(inviteResponse)
@@ -263,7 +265,7 @@ local function SaveKey(value)
         return false
     end
     return pcall(function()
-        writefile(Config.FileName, value)
+        writefile(KEY_FILE_NAME, value)
     end)
 end
 
@@ -272,10 +274,10 @@ local function LoadSavedKey()
         return nil
     end
     local success, result = pcall(function()
-        if not isfile(Config.FileName) then
+        if not isfile(KEY_FILE_NAME) then
             return nil
         end
-        return readfile(Config.FileName)
+        return readfile(KEY_FILE_NAME)
     end)
     if success and type(result) == "string" and result ~= "" then
         return result
@@ -288,8 +290,8 @@ local function ClearSavedKey()
         return
     end
     pcall(function()
-        if isfile(Config.FileName) then
-            delfile(Config.FileName)
+        if isfile(KEY_FILE_NAME) then
+            delfile(KEY_FILE_NAME)
         end
     end)
 end
@@ -873,7 +875,7 @@ New("TextLabel", {
     Size = UDim2.new(0, 260, 0, 27),
     Position = UDim2.new(0, 80, 0, 21),
     BackgroundTransparency = 1,
-    Text = Config.HeaderTitle,
+    Text = HEADER_TITLE,
     TextColor3 = Colors.TextPrimary,
     Font = Enum.Font.GothamBlack,
     TextSize = 22,
@@ -885,7 +887,7 @@ New("TextLabel", {
     Size = UDim2.new(0, 220, 0, 17),
     Position = UDim2.new(0, 80, 0, 49),
     BackgroundTransparency = 1,
-    Text = Config.Subtitle,
+    Text = SUBTITLE,
     TextColor3 = Colors.TextSecondary,
     Font = Enum.Font.GothamMedium,
     TextSize = 11,
@@ -1924,7 +1926,7 @@ local function CopyProviderLink(cooldownName, providerName, link, label)
         return
     end
     if type(link) ~= "string" or link == "" then
-        Notify("Not Configured", providerName .. " link has not been added yet.", "Warn", 3)
+        Notify("Link Missing", providerName .. " link has not been added yet.", "Warn", 3)
         return
     end
     if SafeClipboard(link) then
@@ -1942,18 +1944,18 @@ local function CopyProviderLink(cooldownName, providerName, link, label)
 end
 
 Connect(LinkvertiseButton.MouseButton1Click, function()
-    CopyProviderLink("linkvertise", "Linkvertise", Config.LinkvertiseLink, LinkvertiseText)
+    CopyProviderLink("linkvertise", "Linkvertise", LINKVERTISE_LINK, LinkvertiseText)
 end)
 
 Connect(ShrtflyButton.MouseButton1Click, function()
-    CopyProviderLink("shrtfly", "Shrtfly", Config.ShrtflyLink, ShrtflyText)
+    CopyProviderLink("shrtfly", "Shrtfly", SHRTFLY_LINK, ShrtflyText)
 end)
 
 Connect(ResetHWIDButton.MouseButton1Click, function()
     if not UseCooldown("resethwid", 0.9) or isAuthenticating then
         return
     end
-    if SafeClipboard(Config.DiscordLink) then
+    if SafeClipboard(DISCORD_LINK) then
         Notify("Discord Copied", "Open the NexusHubX Discord and use the Luarmor bot to reset your HWID.", "Warn", 4)
     else
         Notify("Unavailable", "Clipboard is not supported by this executor.", "Error", 3)
@@ -1964,7 +1966,7 @@ Connect(DiscordButton.MouseButton1Click, function()
     if not UseCooldown("discord", 0.9) or isAuthenticating then
         return
     end
-    if SafeClipboard(Config.DiscordLink) then
+    if SafeClipboard(DISCORD_LINK) then
         Notify("Discord Copied", "NexusHubX Discord invite copied.", "Info", 3)
     else
         Notify("Unavailable", "Clipboard is not supported by this executor.", "Error", 3)
