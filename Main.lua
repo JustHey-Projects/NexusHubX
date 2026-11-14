@@ -57,6 +57,7 @@ local gameIdToURL = {
     ["10773574214"] = "dfcb78fa87b259721037b692cac9b23b",
     ["10773907070"] = "23fd7170977fcc8b8dc8557ccaef7242",
     ["8300580369"] = "f0bbd707b99dbd06d40c6bc0f2268771",
+    ["10767330648"] = "7044b8a0d97068390e5a844203a478ce",
 }
 
 local FallbackIcons = {
